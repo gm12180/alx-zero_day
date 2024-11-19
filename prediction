@@ -1,0 +1,13 @@
+# Load the saved model
+loaded_model = joblib.load('road_accident_severity_model.pkl')
+# Hypothetical input data
+new_data = pd.DataFrame({
+    'WeatherCondition': [1],  # Assuming encoded value
+    'RoadSurfaceCondition': [0],
+    'VehicleSpeed': [80],
+    'LightingCondition': [1],
+    'DriverFatigue': [0],
+    'TrafficVolume': [200]
+})
+# Predict accident severity
+severity_prediction = loaded_model.predict(new_data)print(f"Predicted Accident Severity: {severity_prediction[0]}")
