@@ -1,13 +1,23 @@
 # Load the saved model
-loaded_model = joblib.load('road_accident_severity_model.pkl')
+loaded_model = joblib.load('accident_impact_model.pkl')
+
 # Hypothetical input data
+# 'Climate' and 'DriverState' would use the one-hot encoded structure from training
 new_data = pd.DataFrame({
-    'WeatherCondition': [1],  # Assuming encoded value
-    'RoadSurfaceCondition': [0],
-    'VehicleSpeed': [80],
-    'LightingCondition': [1],
-    'DriverFatigue': [0],
-    'TrafficVolume': [200]
+    'Climate_Cold': [1],  # Assuming one-hot encoding structure
+    'Climate_Hot': [0],
+    'RoadQuality_Good': [1],
+    'RoadQuality_Bad': [0],
+    'DrivingSpeed': [90],  # Speed in km/h
+    'DriverState_Tired': [1],
+    'DriverState_Sober': [0]
 })
-# Predict accident severity
-severity_prediction = loaded_model.predict(new_data)print(f"Predicted Accident Severity: {severity_prediction[0]}")
+
+# Predict accident impact
+impact_prediction = loaded_model.predict(new_data)
+print(f"Predicted Accident Impact (Numerical): {impact_prediction[0]}")
+
+# Converting numerical prediction back to categories
+reverse_impact_mapping = {v: k for k, v in impact_mapping.items()}
+predicted_category = reverse_impact_mapping[round(impact_prediction[0])]
+print(f"Predicted Accident Impact (Category): {predicted_category}")
